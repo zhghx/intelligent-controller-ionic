@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { BLE } from '@awesome-cordova-plugins/ble/ngx';
 import { NavController, Platform } from '@ionic/angular';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -18,7 +19,12 @@ export class Tab1Page implements OnInit {
   private READ_CHARACTERISTIC_UUID = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
   private NOTIFY_CHARACTERISTIC_UUID = 'bc6fefd7-2a30-8a53-f76b-9937bc1ec4c1';
 
-  constructor(private ble: BLE, private ngZone: NgZone, private platform: Platform) {
+  constructor(
+    private ble: BLE,
+    private ngZone: NgZone,
+    private platform: Platform,
+    private webIntent: WebIntent
+  ) {
     console.log('constructor()');
   }
 
@@ -133,6 +139,8 @@ export class Tab1Page implements OnInit {
                 id: 'title',
                 name: status
               });
+
+              this.openUrlInAnotherApp();
             });
           }
         },
@@ -141,5 +149,18 @@ export class Tab1Page implements OnInit {
         }
       );
     }
+  }
+
+  // 广播一条消息通知AutoJS
+  openUrlInAnotherApp() {
+    const options = {
+      action: 'android.intent.action.autojs'
+    };
+    // 文档连接
+    // https://github.com/darryncampbell/darryncampbell-cordova-plugin-intent
+    this.webIntent.sendBroadcast(options).then(
+      (intent) => console.log('Web page opened successfully'),
+      (error) => console.error('Error opening web page:', JSON.stringify(error))
+    );
   }
 }
