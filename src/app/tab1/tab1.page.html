@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> 消息列表 </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-explore-container name="Tab 1 page"></app-explore-container> -->
+
+  <ion-item *ngFor="let item of devices">
+    <ion-label>
+      <h3>{{ item.id }}</h3>
+      <p>{{ item.name }}</p>
+    </ion-label>
+  </ion-item>
+</ion-content>
